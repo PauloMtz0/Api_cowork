@@ -32,18 +32,30 @@ class Usuarios(db.Model):
     def check_password (self, passw):
             return check_password_hash(self.passw, passw); 
     
-    def to_dict(self):
-        return {
-            "id_usuario": self.id_usuario,
-            "nombre": self.nombre,
-            "app": self.app,
-            "apm": self.apm,
-            "correo": self.correo,
-            "sexo": self.sexo,
-            "fecha_nacimiento": self.fecha_nacimiento.isoformat(),
-            "huella": self.huella,
-            "fecha_registro": self.fecha_registro.isoformat() if self.fecha_registro else None,
-            "passw": self.passw,
-            "rol": self.rol,
-        }
+   def to_dict(self):
+    fecha_nacimiento = self.fecha_nacimiento
+    if isinstance(fecha_nacimiento, str):
+        fecha_str = fecha_nacimiento  # Ya es una cadena, no necesita conversión
+    else:
+        fecha_str = fecha_nacimiento.isoformat() if fecha_nacimiento else None
+
+    fecha_registro = self.fecha_registro
+    if isinstance(fecha_registro, str):
+        registro_str = fecha_registro
+    else:
+        registro_str = fecha_registro.isoformat() if fecha_registro else None
+
+    return {
+        "id_usuario": self.id_usuario,
+        "nombre": self.nombre,
+        "app": self.app,
+        "apm": self.apm,
+        "correo": self.correo,
+        "sexo": self.sexo,
+        "fecha_nacimiento": fecha_str,
+        "huella": self.huella,
+        "fecha_registro": registro_str,
+        "passw": self.passw,
+        "rol": self.rol,
+    }
     
