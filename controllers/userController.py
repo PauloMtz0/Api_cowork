@@ -5,10 +5,11 @@ from flask_jwt_extended import create_access_token
 
 def get_all_users():
     try: 
-        return [  user.to_dict()  for user in Usuarios.query.all()]
+        users = [user.to_dict() for user in Usuarios.query.all()]
+        return users  # Siempre una lista
     except Exception as error:
         print(f"error {error}")
-        return jsonify({ 'msg' : 'error al crear usuario' }), 500
+        return {'msg': 'error al obtener usuarios'}  # Diccionario, no Response
 
 def create_user(nombre, app, apm, correo, sexo, fecha_nacimiento, huella, passw, rol):
     try:
